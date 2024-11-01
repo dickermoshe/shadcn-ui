@@ -135,13 +135,17 @@ class ShadBorder extends Border {
   ShadBorder mergeWith(ShadBorder? other) {
     if (other == null) return this;
     if (!other.merge) return other;
-    return copyWith(
-      padding: other.padding,
-      top: other.top,
-      right: other.right,
-      bottom: other.bottom,
-      left: other.left,
-      radius: other.radius,
+    assert(BorderSide.canMerge(top, other.top));
+    assert(BorderSide.canMerge(right, other.right));
+    assert(BorderSide.canMerge(bottom, other.bottom));
+    assert(BorderSide.canMerge(left, other.left));
+    return ShadBorder(
+      padding: other.padding ?? padding,
+      radius: other.radius ?? radius,
+      top: BorderSide.merge(top, other.top),
+      right: BorderSide.merge(right, other.right),
+      bottom: BorderSide.merge(bottom, other.bottom),
+      left: BorderSide.merge(left, other.left),
     );
   }
 
